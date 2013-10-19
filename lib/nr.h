@@ -42,8 +42,8 @@ void arcode(unsigned long *ich, unsigned char **codep, unsigned long *lcode,
 	unsigned long *lcd, int isign, arithcode *acode);
 void arcsum(unsigned long iin[], unsigned long iout[], unsigned long ja,
 	int nwk, unsigned long nrad, unsigned long nc);
-void asolve(unsigned long n, double b[], double x[], int itrnsp);
-void atimes(unsigned long n, double x[], double r[], int itrnsp);
+void asolve(double sa[], unsigned long ija[], unsigned long n, double b[], double x[], int itrnsp);
+void atimes(double sa[], unsigned long ija[], unsigned long n, double x[], double r[], int itrnsp);
 void avevar(float data[], unsigned long n, float *ave, float *var);
 void balanc(float **a, int n);
 void banbks(float **a, unsigned long n, int m1, int m2, float **al,
@@ -180,7 +180,7 @@ void fitexy(float x[], float y[], int ndat, float sigx[], float sigy[],
 void fixrts(float d[], int m);
 void fleg(float x, float pl[], int nl);
 void flmoon(int n, int nph, long *jd, float *frac);
-float fmin(float x[]);
+// float fmin(float x[]);
 void four1(float data[], unsigned long nn, int isign);
 void fourew(FILE *file[5], int *na, int *nb, int *nc, int *nd);
 void fourfs(FILE *file[5], unsigned long nn[], int ndim, int isign);
@@ -254,7 +254,7 @@ void kstwo(float data1[], unsigned long n1, float data2[], unsigned long n2,
 void laguer(fcomplex a[], int m, fcomplex *x, int *its);
 void lfit(float x[], float y[], float sig[], int ndat, float a[], int ia[],
 	int ma, float **covar, float *chisq, void (*funcs)(float, float [], int));
-void linbcg(unsigned long n, double b[], double x[], int itol, double tol,
+void linbcg(double sa[], unsigned long ija[], unsigned long n, double b[], double x[], int itol, double tol,
 	 int itmax, int *iter, double *err);
 void linmin(float p[], float xi[], int n, float *fret,
 	float (*func)(float []));

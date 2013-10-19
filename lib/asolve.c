@@ -1,7 +1,4 @@
-extern unsigned long ija[];
-extern double sa[];
-
-void asolve(unsigned long n, double b[], double x[], int itrnsp)
+void asolve(double sa[], unsigned long ija[], unsigned long n, double b[], double x[], int itrnsp)
 {
 	unsigned long i;
 

@@ -4,8 +4,6 @@
 #include "lib/nr.h"
 #pragma GCC diagnostic ignored "-Wimplicit-function-declaration"
 
-double *sa;
-unsigned long *ija;
 
 void main (int argc, char **argv) {
   LinearEquation leq;
@@ -14,6 +12,8 @@ void main (int argc, char **argv) {
   leq = read_linear_equation_from_file(filename);
 
 
+  double *sa;
+  unsigned long *ija;
   int sa_size = (leq.n + 1) * (leq.n + 1);
   sa = (double*) malloc(sa_size * sizeof(double));
   ija = (unsigned long*) malloc((sa_size) * sizeof(unsigned long));
@@ -41,7 +41,8 @@ void main (int argc, char **argv) {
 
   int iterations;
   double error;
-  linbcg(leq.n, leq.b, leq.x, 1, 0.1, 10, &iterations, &error);
+  linbcg(sa, ija, leq.n, leq.b, leq.x, 1, 0.1, 10, &iterations, &error);
+  pri(leq.x, leq.n);
   
   free_linear_equation(leq);
   free(sa);

@@ -3,12 +3,13 @@
 #define NRANSI
 #include "nrutil.h"
 #define EPS 1.0e-14
+#include "nr.h"
 
-void linbcg(unsigned long n, double b[], double x[], int itol, double tol,
+void linbcg(double sa[], unsigned long ija[], unsigned long n, double b[], double x[], int itol, double tol,
 	int itmax, int *iter, double *err)
 {
-	void asolve(unsigned long n, double b[], double x[], int itrnsp);
-	void atimes(unsigned long n, double x[], double r[], int itrnsp);
+  // void asolve(unsigned long n, double b[], double x[], int itrnsp);
+  // void atimes(unsigned long n, double x[], double r[], int itrnsp);
 	double snrm(unsigned long n, double sx[], int itol);
 	unsigned long j;
 	double ak,akden,bk,bkden,bknum,bnrm,dxnrm,xnrm,zm1nrm,znrm;
@@ -22,7 +23,7 @@ void linbcg(unsigned long n, double b[], double x[], int itol, double tol,
 	zz=dvector(1,n);
 
 	*iter=0;
-	atimes(n,x,r,0);
+	atimes(sa,ija,n,x,r,0);
 	for (j=1;j<=n;j++) {
 		r[j]=b[j]-r[j];
 		rr[j]=r[j];
@@ -30,20 +31,20 @@ void linbcg(unsigned long n, double b[], double x[], int itol, double tol,
 	znrm=1.0;
 	if (itol == 1) bnrm=snrm(n,b,itol);
 	else if (itol == 2) {
-		asolve(n,b,z,0);
+        asolve(sa,ija,n,b,z,0);
 		bnrm=snrm(n,z,itol);
 	}
 	else if (itol == 3 || itol == 4) {
-		asolve(n,b,z,0);
+        asolve(sa,ija,n,b,z,0);
 		bnrm=snrm(n,z,itol);
-		asolve(n,r,z,0);
+		asolve(sa,ija,n,r,z,0);
 		znrm=snrm(n,z,itol);
 	} else nrerror("illegal itol in linbcg");
-	asolve(n,r,z,0);
+	asolve(sa,ija,n,r,z,0);
 	while (*iter <= itmax) {
 		++(*iter);
 		zm1nrm=znrm;
-		asolve(n,rr,zz,1);
+		asolve(sa,ija,n,rr,zz,1);
 		for (bknum=0.0,j=1;j<=n;j++) bknum += z[j]*rr[j];
 		if (*iter == 1) {
 			for (j=1;j<=n;j++) {
@@ -59,16 +60,16 @@ void linbcg(unsigned long n, double b[], double x[], int itol, double tol,
 			}
 		}
 		bkden=bknum;
-		atimes(n,p,z,0);
+		atimes(sa,ija,n,p,z,0);
 		for (akden=0.0,j=1;j<=n;j++) akden += z[j]*pp[j];
 		ak=bknum/akden;
-		atimes(n,pp,zz,1);
+		atimes(sa,ija,n,pp,zz,1);
 		for (j=1;j<=n;j++) {
 			x[j] += ak*p[j];
 			r[j] -= ak*z[j];
 			rr[j] -= ak*zz[j];
 		}
-		asolve(n,r,z,0);
+		asolve(sa,ija,n,r,z,0);
 		if (itol == 1 || itol == 2) {
 			znrm=1.0;
 			*err=snrm(n,r,itol)/bnrm;
