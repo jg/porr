@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "reader.h"
+#include "lib/nr.h"
 
 /* WARNING: one-based array indexing is happening here. Don't ask. */
 
@@ -56,12 +57,25 @@ LinearEquation read_linear_equation_from_file(char *file_name) {
   leq.n = n;
   leq.b = b;
 
+  // init sparse representation
+  int sa_size = (leq.n + 1) * (leq.n + 1);
+  leq.sa = (double*) malloc(sa_size * sizeof(double));
+  leq.ija = (unsigned long*) malloc((sa_size) * sizeof(unsigned long));
+  sprsin(leq.A, leq.n, 0.1, sa_size, leq.sa, leq.ija);
+  leq.sparse_n = leq.ija[leq.ija[1]-1]-1;
+
+  // init x and fill with zeros
+  leq.x = (double*) malloc((leq.n + 1) * sizeof(double));
+  for (int i = 0; i <= leq.n; i++) { leq.x[i] = 1; }
+
   return leq;
 }
 
 void free_linear_equation(LinearEquation leq) {
   free(leq.A);
   free(leq.b);
+  free(leq.sa);
+  free(leq.ija);
 }
 
 void print_linear_equation(LinearEquation leq) {
