@@ -89,7 +89,7 @@ void linbcg(double sa[], unsigned long ija[], unsigned long n, double b[], doubl
 				continue;
 			}
 		}
-		printf("iter=%4d err=%12.6f\n",*iter,*err);
+		// printf("iter=%4d err=%12.6f\n",*iter,*err);
 	if (*err <= tol) break;
 	}
 
