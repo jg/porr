@@ -1,6 +1,6 @@
 #include <math.h>
 
-void sprsin(float **a, int n, float thresh, unsigned long nmax, float sa[],
+void sprsin(double **a, int n, float thresh, unsigned long nmax, double sa[],
 	unsigned long ija[])
 {
 	void nrerror(char error_text[]);

@@ -16,7 +16,7 @@
 LinearEquation read_linear_equation_from_file(char *file_name) {
   FILE *fp;
   int n; // matrix dimensions
-  float x;
+  double x;
   
   if ((fp = fopen(file_name, "r")) == NULL ) {
     exit(EXIT_FAILURE);
@@ -27,24 +27,24 @@ LinearEquation read_linear_equation_from_file(char *file_name) {
   fscanf(fp,"%d", &n);
 
   // init A
-  float **A = (float**) malloc((n + 1) * sizeof(float*));
+  double **A = (double**) malloc((n + 1) * sizeof(double*));
   for (int i = 1; i <= n; ++i) {
-    A[i] = (float*) malloc((n + 1) * sizeof(float));
+    A[i] = (double*) malloc((n + 1) * sizeof(double));
   }
   
   // init b
-  float *b = (float*) malloc(n * sizeof(float*));
+  double *b = (double*) malloc((n + 1) * sizeof(double*));
 
 
   for (int i = 1; i <= n; i++) {
     // read A matrix
     for(int j = 1; j <= n; j++) {
-      fscanf(fp,"%f", &x);
+      fscanf(fp,"%lf", &x);
       A[i][j] = x;
     }
     
     // read b column vector
-    fscanf(fp,"%f", &x);
+    fscanf(fp,"%lf", &x);
     b[i] = x;
   }
 
@@ -65,8 +65,8 @@ void free_linear_equation(LinearEquation leq) {
 }
 
 void print_linear_equation(LinearEquation leq) {
-  float **A;
-  float *b;
+  double **A;
+  double *b;
   int n;
 
   n = leq.n;

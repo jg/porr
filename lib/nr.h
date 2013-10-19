@@ -459,7 +459,7 @@ void splint(float xa[], float ya[], float y2a[], int n, float x, float *y);
 void spread(float y, float yy[], unsigned long n, float x, int m);
 void sprsax(float sa[], unsigned long ija[], float x[], float b[],
 	unsigned long n);
-void sprsin(float **a, int n, float thresh, unsigned long nmax, float sa[],
+void sprsin(double **a, int n, float thresh, unsigned long nmax, double sa[],
 	unsigned long ija[]);
 void sprspm(float sa[], unsigned long ija[], float sb[], unsigned long ijb[],
 	float sc[], unsigned long ijc[]);

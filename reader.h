@@ -1,7 +1,8 @@
 typedef struct _LinearEquation {
-  float **A;
+  double **A;
   int n; // dimensions of A matrix
-  float *b;
+  double *b;
+  double *x; // solution, why not
 } LinearEquation;
 
 
