@@ -2,13 +2,16 @@
 #include <stdlib.h>
 #include "reader.h"
 
+/* WARNING: one-based array indexing is happening here. Don't ask. */
+
 /* 
    File format description:
    
    0. File contains a description of a linear equation system, Ax = b 
-   1. First line contains two numbers. The dimension of theA matrix
+   1. First line contains two numbers. The dimension of the A matrix
    2. The following i-1'th line of the file contains the coefficients of the i'th row of A followed by the i'th member of b.
  */
+
 
 LinearEquation read_linear_equation_from_file(char *file_name) {
   FILE *fp;
@@ -24,18 +27,18 @@ LinearEquation read_linear_equation_from_file(char *file_name) {
   fscanf(fp,"%d", &n);
 
   // init A
-  float **A = (float**) malloc(n * sizeof(float*));
-  for (int i = 0; i < n; ++i) {
-    A[i] = (float*) malloc(n * sizeof(float));
+  float **A = (float**) malloc((n + 1) * sizeof(float*));
+  for (int i = 1; i <= n; ++i) {
+    A[i] = (float*) malloc((n + 1) * sizeof(float));
   }
   
   // init b
   float *b = (float*) malloc(n * sizeof(float*));
 
 
-  for (int i = 0; i < n; i++) {
+  for (int i = 1; i <= n; i++) {
     // read A matrix
-    for(int j = 0; j < n; j++) {
+    for(int j = 1; j <= n; j++) {
       fscanf(fp,"%f", &x);
       A[i][j] = x;
     }
@@ -73,8 +76,8 @@ void print_linear_equation(LinearEquation leq) {
   printf("n = %d\n\n", n);
 
   printf("A = \n");
-  for (int i = 0; i < n; ++i) {
-    for (int j = 0; j < n; ++j) {
+  for (int i = 1; i <= n; ++i) {
+    for (int j = 1; j <= n; ++j) {
       printf("%f  ", A[i][j]);
     }
     printf("\n");
@@ -83,7 +86,7 @@ void print_linear_equation(LinearEquation leq) {
   printf("\n");
 
   printf("b = ");
-  for (int i = 0; i < n; ++i) {
+  for (int i = 1; i <= n; ++i) {
       printf("%f ", b[i]);
   }
 
