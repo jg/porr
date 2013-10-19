@@ -5,7 +5,7 @@ NLIBPATHS=$(patsubst %,$(NLIBDIR)/%,$(NLIBNAMES))
 LIBNAMES=reader.c
 LIBPATHS=$(LIBNAMES)
 
-CFLAGS=-std=c99
+CFLAGS=-std=c99 -fopenmp
 
 CHECK_PATH=check/check-0.9.10
 
