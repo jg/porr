@@ -5,10 +5,12 @@ NLIBPATHS=$(patsubst %,$(NLIBDIR)/%,$(NLIBNAMES))
 LIBNAMES=reader.c
 LIBPATHS=$(LIBNAMES)
 
+CFLAGS=-std=c99
+
 CHECK_PATH=check/check-0.9.10
 
 all:
-	gcc -std=c99 $(NLIBPATHS) $(LIBPATHS) main.c -lm
+	gcc $(CFLAGS) $(NLIBPATHS) $(LIBPATHS) main.c -lm
 
 check: test/suite.c
 	libtool --mode=link gcc -I$(CHECK_PATH)/src -I$(CHECK_PATH) test/suite.c  -lm -lpthread -lrt  -o test/suite $(CHECK_PATH)/src/libcheck.la && test/suite
