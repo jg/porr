@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "reader.h"
+#pragma GCC diagnostic ignored "-Wimplicit-function-declaration"
 
 float *sa;
 
