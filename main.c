@@ -43,7 +43,7 @@ void main (int argc, char **argv) {
 
     // print out results
     printf("%f %f\n", time_spent, compute_error(leq));
-    print_double(leq.x, leq.n);
+    // print_double(leq.x, leq.n);
   } else {
     run_gaussj(&leq);
 
@@ -52,7 +52,7 @@ void main (int argc, char **argv) {
     time_spent = difftime(end, begin);
 
     printf("%f %f\n", time_spent, compute_error(leq));
-    print_double(leq.x, leq.n);
+    // print_double(leq.x, leq.n);
   }
 
   // free leq memory
