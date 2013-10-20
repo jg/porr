@@ -14,7 +14,7 @@
  */
 
 
-LinearEquation read_linear_equation_from_file(char *file_name) {
+LinearEquation read_linear_equation_from_file(const char *file_name) {
   FILE *fp;
   int n; // matrix dimensions
   double x;

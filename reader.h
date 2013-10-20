@@ -9,7 +9,7 @@ typedef struct _LinearEquation {
 } LinearEquation;
 
 
-LinearEquation read_linear_equation_from_file(char*);
+LinearEquation read_linear_equation_from_file(const char*);
 
 void free_linear_equation(LinearEquation);
 
