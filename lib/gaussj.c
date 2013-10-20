@@ -3,11 +3,11 @@
 #include "nrutil.h"
 #define SWAP(a,b) {temp=(a);(a)=(b);(b)=temp;}
 
-void gaussj(float **a, int n, float **b, int m)
+void gaussj(double **a, int n, double **b, int m)
 {
 	int *indxc,*indxr,*ipiv;
 	int i,icol,irow,j,k,l,ll;
-	float big,dum,pivinv,temp;
+	double big,dum,pivinv,temp;
 
 	indxc=ivector(1,n);
 	indxr=ivector(1,n);
