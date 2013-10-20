@@ -1,4 +1,4 @@
-NLIBNAMES=linbcg.c gauss_jordan.c nrutil.c atimes.c snrm.c asolve.c dsprstx.c dsprsax.c sprsin.c
+NLIBNAMES=linbcg.c gaussj.c nrutil.c atimes.c snrm.c asolve.c dsprstx.c dsprsax.c sprsin.c
 NLIBDIR=lib
 NLIBPATHS=$(patsubst %,$(NLIBDIR)/%,$(NLIBNAMES))
 
