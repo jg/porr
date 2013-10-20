@@ -11,6 +11,10 @@ typedef struct _LinearEquation {
 
 LinearEquation read_linear_equation_from_file(const char*);
 
+LinearEquation* run_linbcg(LinearEquation*, float, int);
+
+LinearEquation* run_gaussj(LinearEquation*);
+
 void free_linear_equation(LinearEquation);
 
 void print_linear_equation(LinearEquation);
