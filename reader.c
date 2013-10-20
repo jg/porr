@@ -34,7 +34,7 @@ LinearEquation read_linear_equation_from_file(const char *file_name) {
   }
   
   // init b
-  double *b = (double*) malloc((n + 1) * sizeof(double*));
+  double *b = (double*) malloc((n + 1) * sizeof(double));
 
 
   for (int i = 1; i <= n; i++) {
@@ -104,4 +104,7 @@ void print_linear_equation(LinearEquation leq) {
       printf("%f ", b[i]);
   }
 
+  printf("\n");
+
+  fflush(stdout);
 }

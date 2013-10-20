@@ -9,13 +9,15 @@ Options default_options() {
   Options opts;
   opts.max_iterations = 10000;
   opts.tolerance = 0.01;
+  opts.use_conjugate_gradient = 0;
 
   return opts;
 }
 
 Options parse_command_line_arguments(int argc, char **argv) {
-  Options defaults = default_options();
 
+  struct arg_lit *conjugate_gradient =
+    arg_lit0("g", NULL, "use conjugate gradient method, gauss-jordan is default");
   struct arg_int *max_iterations =
     arg_int0("i", "max-iterations", "max_iterations", "maximum number of iterations");
   struct arg_dbl *tolerance =
@@ -28,7 +30,7 @@ Options parse_command_line_arguments(int argc, char **argv) {
   const char* progname = argv[0];
 
   void *argtable[] = {
-    max_iterations, tolerance, file, help, end
+    max_iterations, tolerance, file, conjugate_gradient, help, end
   };
 
   int nerrors = arg_parse(argc, argv, argtable);
@@ -46,21 +48,18 @@ Options parse_command_line_arguments(int argc, char **argv) {
     exit(0);
   }
 
-  Options opts;
+  Options opts = default_options();
 
   opts.file_name = file->filename[0];
 
-  if (max_iterations->count > 0) {
-    opts.max_iterations = max_iterations->ival[0];
-  } else {
-    opts.max_iterations = defaults.max_iterations;
-  }
+  if (conjugate_gradient->count > 0)
+    opts.use_conjugate_gradient = 1;
 
-  if (tolerance->count > 0) {
+  if (max_iterations->count > 0)
+    opts.max_iterations = max_iterations->ival[0];
+
+  if (tolerance->count > 0)
     opts.tolerance = tolerance->dval[0];
-  } else {
-    opts.tolerance = defaults.tolerance;
-  }
 
   arg_freetable(argtable, sizeof(argtable)/sizeof(argtable[0]));
 

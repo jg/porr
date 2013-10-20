@@ -37,19 +37,35 @@ void main (int argc, char **argv) {
 
   leq = read_linear_equation_from_file(opt.file_name);
 
-  // do stuff
-  int iterations;
-  double error;
-  linbcg(leq.sa, leq.ija, leq.n, leq.b, leq.x, 1,
-         opt.tolerance, opt.max_iterations, &iterations, &error);
+  if (opt.use_conjugate_gradient) {
+    int iterations;
+    double error;
+    /* Solves A · x = b for x[1..n], given b[1..n], by the iterative biconjugate gradient method. On input x[1..n] should be set to an initial guess of the solution (or all zeros); itol is 1,2,3, or 4, specifying which convergence test is applied (see text); itmax is the maximum number of allowed iterations; and tol is the desired convergence tolerance. On output, x[1..n] is reset to the improved solution, iter is the number of iterations actually taken, and err is the estimated error. The matrix A is referenced only through the user-supplied routines atimes, which computes the product of either A or its transpose on a vector; and asolve, which solves A · x = b or A' · x = b for some preconditioner matrix A (possibly the trivial diagonal part of A). */
+    linbcg(leq.sa, leq.ija, leq.n, leq.b, leq.x, 1,
+           opt.tolerance, opt.max_iterations, &iterations, &error);
 
-  // record time
-  end = time(NULL);
-  time_spent = difftime(end, begin);
+    // record time
+    end = time(NULL);
+    time_spent = difftime(end, begin);
 
-  // print out results
-  printf("%f %d %f\n", time_spent, iterations, error);
-  print_double(leq.x, leq.n);
+    // print out results
+    printf("%f %d %f\n", time_spent, iterations, error);
+    print_double(leq.x, leq.n);
+  } else {
+    /* Linear equation solution by Gauss-Jordan elimination, equation (2.1.1) above. a[1..n][1..n] is the input matrix. b[1..n][1..m] is input containing the m right-hand side vectors. On output, a is replaced by its matrix inverse, and b is replaced by the corresponding set of solution vectors. */
+    double **b = (double**) malloc(2 * sizeof(double*));
+    b[0] = NULL;
+    b[1] = leq.b;
+    gaussj(leq.A, leq.n, b, 1);
+
+    // record time
+    end = time(NULL);
+    time_spent = difftime(end, begin);
+
+    printf("%f\n", time_spent);
+    print_double(leq.b, leq.n);
+  }
+
 
   // free memory
   free_linear_equation(leq);
