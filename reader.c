@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "reader.h"
 #include "lib/nr.h"
 
@@ -108,3 +109,31 @@ void print_linear_equation(LinearEquation leq) {
 
   fflush(stdout);
 }
+
+double compute_error(LinearEquation leq) {
+  double **A = leq.A; int n = leq.n;
+  double *x = leq.x;
+  double *b = leq.b;
+
+  double *computed_x = malloc((n + 1) * sizeof(double));
+
+  for (int i = 1; i <= n; i++) {
+    double tmp = 0;
+    for (int j = 1; j <= n; j++) {
+      tmp += A[i][j] * x[j];
+    }
+    computed_x[i] = tmp;
+  }
+
+  double *errors = malloc((n + 1) * sizeof(double));
+
+  for (int i = 1; i <= n; i++)
+    errors[i] = fabs(computed_x[i] - x[i]);
+
+  double error_sum = 0;
+  for (int i = 1; i <= n; i++) 
+    error_sum += errors[i];
+
+  return error_sum;
+}
+

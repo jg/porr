@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include <string.h>
 
 #include "reader.h"
 #include "command_line_options.h"
@@ -49,21 +50,32 @@ void main (int argc, char **argv) {
     time_spent = difftime(end, begin);
 
     // print out results
-    printf("%f %d %f\n", time_spent, iterations, error);
+    printf("%f %f %d\n", time_spent, compute_error(leq), iterations);
     print_double(leq.x, leq.n);
   } else {
     /* Linear equation solution by Gauss-Jordan elimination, equation (2.1.1) above. a[1..n][1..n] is the input matrix. b[1..n][1..m] is input containing the m right-hand side vectors. On output, a is replaced by its matrix inverse, and b is replaced by the corresponding set of solution vectors. */
+
+    // give it a copy of the b vector so that it doesn't mutate!
     double **b = (double**) malloc(2 * sizeof(double*));
+    double *b_copy = (double*) malloc((leq.n + 1) * sizeof(double));
+    memcpy(b_copy, leq.b, leq.n * sizeof(double));
     b[0] = NULL;
-    b[1] = leq.b;
+    b[1] = b_copy;
+
     gaussj(leq.A, leq.n, b, 1);
+
+    // copy result back
+    for (int i = 1; i <= leq.n; i++)
+      leq.x[i] = b_copy[i];
+
+    free(b_copy);
 
     // record time
     end = time(NULL);
     time_spent = difftime(end, begin);
 
-    printf("%f\n", time_spent);
-    print_double(leq.b, leq.n);
+    printf("%f %f\n", time_spent, compute_error(leq));
+    print_double(leq.x, leq.n);
   }
 
 

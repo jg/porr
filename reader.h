@@ -14,3 +14,5 @@ LinearEquation read_linear_equation_from_file(const char*);
 void free_linear_equation(LinearEquation);
 
 void print_linear_equation(LinearEquation);
+
+double compute_error(LinearEquation leq);
