@@ -28,9 +28,9 @@ void main (int argc, char **argv) {
   Options opt = parse_command_line_arguments(argc, argv);
 
   // record time
-  time_t begin, end;
+  clock_t begin, end;
   double time_spent;
-  begin = time(NULL);
+  begin = clock();
 
   leq = read_linear_equation_from_file(opt.file_name);
 
@@ -38,21 +38,19 @@ void main (int argc, char **argv) {
     run_linbcg(&leq, opt.tolerance, opt.max_iterations);
 
     // record time
-    end = time(NULL);
-    time_spent = difftime(end, begin);
+    end = clock();
+    time_spent = ((double)end - (double)begin) / CLOCKS_PER_SEC * 1000.0F;
 
     // print out results
-    printf("%f %f\n", time_spent, compute_error(leq));
-    // print_double(leq.x, leq.n);
+    printf("%.0f %.2f\n", time_spent, compute_error(leq));
   } else {
     run_gaussj(&leq);
 
     // record time
-    end = time(NULL);
-    time_spent = difftime(end, begin);
+    end = clock();
+    time_spent = ((double)end - (double)begin) / CLOCKS_PER_SEC * 1000.0F;
 
-    printf("%f %f\n", time_spent, compute_error(leq));
-    // print_double(leq.x, leq.n);
+    printf("%.0f %.2f\n", time_spent, compute_error(leq));
   }
 
   // free leq memory
