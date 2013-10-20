@@ -3,7 +3,7 @@
 #include <time.h>
 #include <string.h>
 
-#include "reader.h"
+#include "linear_equation.h"
 #include "command_line_options.h"
 #include "lib/nr.h"
 #include <omp.h>

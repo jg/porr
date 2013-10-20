@@ -2,7 +2,7 @@ NLIBNAMES=linbcg.c gaussj.c nrutil.c atimes.c snrm.c asolve.c dsprstx.c dsprsax.
 NLIBDIR=lib
 NLIBPATHS=$(patsubst %,$(NLIBDIR)/%,$(NLIBNAMES))
 
-LIBNAMES=reader.c command_line_options.c
+LIBNAMES=linear_equation.c command_line_options.c
 LIBPATHS=$(LIBNAMES)
 
 CFLAGS=-std=c99 -fopenmp

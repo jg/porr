@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include "reader.h"
+#include "linear_equation.h"
 #include "lib/nr.h"
 
 /* WARNING: one-based array indexing is happening here. Don't ask. */
