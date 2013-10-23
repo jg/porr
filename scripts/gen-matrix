@@ -1,0 +1,15 @@
+#!/usr/bin/octave -qf
+
+args = argv();
+
+n = str2num(args{1});
+
+A=rand(n);
+B=A'*A;
+printf("%d\n", n);
+for i = 1:n
+    for j = 1:n
+        printf("%f ", B(i, j))
+    end
+    printf("\n")
+end
