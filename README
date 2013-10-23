@@ -1,0 +1,6 @@
+Requirements
+------------
+
+- argtable2
+
+On ubuntu: 'sudo apt-get install libargtable2-dev'
