@@ -11,8 +11,12 @@ LINK=-largtable2 -lm
 
 CHECK_PATH=check/check-0.9.10
 
+ifeq ($(OPENMP),1)
+	MACROS+=-D OPENMP
+endif
+
 all:
-	gcc $(CFLAGS) $(NLIBPATHS) $(LIBPATHS) main.c $(LINK)
+	gcc $(MACROS) $(CFLAGS) $(NLIBPATHS) $(LIBPATHS) main.c $(LINK)
 
 check: test/suite.c
 	libtool --mode=link gcc -I$(CHECK_PATH)/src -I$(CHECK_PATH) test/suite.c  -lm -lpthread -lrt  -o test/suite $(CHECK_PATH)/src/libcheck.la && test/suite
