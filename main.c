@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <time.h>
+#include <sys/time.h>
 
 #include "linear_equation.h"
 #include "command_line_options.h"
@@ -23,14 +23,20 @@ void print_double(double *tab, int n) {
   printf("\n");
 }
 
+// returns difference in seconds
+double timediff(struct timeval start, struct timeval end) {
+  return ((end.tv_sec * 1000 + end.tv_usec/1000) -
+          (start.tv_sec * 1000 + start.tv_usec/1000));
+}
+
 void main (int argc, char **argv) {
   LinearEquation leq;
   Options opt = parse_command_line_arguments(argc, argv);
 
   // record time
-  clock_t begin, end;
-  double time_spent;
-  begin = clock();
+  struct timeval begin, end;
+  gettimeofday(&begin, NULL);
+  int time_spent; // millis
 
   leq = read_linear_equation_from_file(opt.file_name);
 
@@ -38,21 +44,20 @@ void main (int argc, char **argv) {
     run_linbcg(&leq, opt.tolerance, opt.max_iterations);
 
     // record time
-    end = clock();
-    time_spent = ((double)end - (double)begin) / CLOCKS_PER_SEC * 1000.0F;
+    gettimeofday(&end, NULL);
 
     // print out results
-    printf("%.0f %.2f\n", time_spent, compute_error(leq));
+    printf("%.0f %.2f\n", timediff(begin, end), compute_error(leq));
   } else {
     run_gaussj(&leq);
 
     // record time
-    end = clock();
-    time_spent = ((double)end - (double)begin) / CLOCKS_PER_SEC * 1000.0F;
+    gettimeofday(&end, NULL);
 
-    printf("%.0f %.2f\n", time_spent, compute_error(leq));
+    printf("%.0f %.2f\n", timediff(begin, end), compute_error(leq));
   }
 
   // free leq memory
   free_linear_equation(leq);
 }
+
