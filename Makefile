@@ -24,3 +24,6 @@ check: test/suite.c
 
 test: output.txt
 	scripts/run-suite
+
+clean:
+	rm -rf *.gc*
