@@ -18,6 +18,9 @@ void gaussj(double **a, int n, double **b, int m)
 	for (j=1;j<=n;j++) ipiv[j]=0;
 	for (i=1;i<=n;i++) {
 		big=0.0;
+#ifdef OPENMP
+#pragma omp parallel for private(j,k) shared(ipiv, a, big, irow, icol)
+#endif
 		for (j=1;j<=n;j++)
 			if (ipiv[j] != 1)
 				for (k=1;k<=n;k++) {
