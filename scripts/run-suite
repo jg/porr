@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+N=250
+PROGNAME=./a.out
+
+# generate input data
+scripts/gen-matrix $N > input-$N.txt
+
+# set env variables for run
+export OMP_NUM_THREADS=2
+export OMP_NESTED=true
+export OMP_SCHEDULE="dynamic"
+
+# without openMP
+echo "Compiling without openMP..."
+make
+echo "Running gaussj..."
+./a.out -f input-$N.txt > output.txt
+echo "Running linbcg..."
+./a.out -f input-$N.txt -g >> output.txt
+
+# with openMP enabled
+echo "Compiling with openMP..."
+OPENMP=1 make
+echo "Running gaussj..."
+./a.out -f input-$N.txt >> output.txt
+echo "Running linbcg..."
+./a.out -f input-$N.txt -g >> output.txt
+
+echo "Finished! Output:"
+echo
+
+cat output.txt
