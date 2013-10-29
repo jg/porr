@@ -21,3 +21,6 @@ all:
 check: test/suite.c
 	libtool --mode=link gcc -I$(CHECK_PATH)/src -I$(CHECK_PATH) test/suite.c  -lm -lpthread -lrt  -o test/suite $(CHECK_PATH)/src/libcheck.la && test/suite
 # gcc -I$(CHECK_PATH)/src -I$(CHECK_PATH) test/suite.c $(CHECK_PATH)/src/*.o -lm -lpthread -lrt -o test/suite && test/suite
+
+test: output.txt
+	scripts/run-suite
