@@ -4,3 +4,16 @@ Requirements
 - argtable2
 
 On ubuntu: 'sudo apt-get install libargtable2-dev'
+
+
+Creating input matrices
+-----------------------
+
+scripts/gen-matrix n
+
+
+Generating gcov by-line execution info
+--------------------------------------
+
+1. run make with gcov flags
+2. gcov file.gcda
