@@ -5,7 +5,7 @@ NLIBPATHS=$(patsubst %,$(NLIBDIR)/%,$(NLIBNAMES))
 LIBNAMES=linear_equation.c command_line_options.c
 LIBPATHS=$(LIBNAMES)
 
-CFLAGS=-std=c99 -fopenmp
+CFLAGS=-std=c99 -fopenmp -pg -fprofile-arcs -ftest-coverage
 
 LINK=-largtable2 -lm
 
