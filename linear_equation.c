@@ -149,22 +149,7 @@ LinearEquation* run_linbcg(LinearEquation *leq,
 }
 
 LinearEquation* run_gaussj(LinearEquation *leq) {
-  // gaussj takes an array of b vectors
-  // give it a copy of the leq.b vector so that it doesn't mutate!
-  double **b = (double**) malloc(2 * sizeof(double*));
-  double *b_copy = (double*) malloc((leq->n + 1) * sizeof(double));
-  memcpy(b_copy, leq->b, leq->n * sizeof(double));
-  b[0] = NULL;
-  b[1] = b_copy;
-
-    /* Linear equation solution by Gauss-Jordan elimination, equation (2.1.1) above. a[1..n][1..n] is the input matrix. b[1..n][1..m] is input containing the m right-hand side vectors. On output, a is replaced by its matrix inverse, and b is replaced by the corresponding set of solution vectors. */
-  gaussj(leq->A, leq->n, b, 1);
-
-  // result is in b_copy, copy it result back to leq.x
-  for (int i = 1; i <= leq->n; i++)
-    leq->x[i] = b_copy[i];
-
-  free(b_copy);
+  gauss_jordan(leq->A, leq->n, leq->b, leq->x);
 
   return leq;
 }
